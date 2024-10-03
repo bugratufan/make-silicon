@@ -13,14 +13,47 @@ MakeSilicon is a streamlined toolkit for initializing FPGA and ASIC projects. It
 
 ## Getting Started
 
+2. List the available make commands:
+   ```bash
+   make help
+   ```
+
+1. Create a new project:
+   ```bash
+   make new PROJECT_NAME=my-project
+   ```
+
+3. List the projects in the project directory:
+    ```bash
+    make list
+   ```
+
+2. Delete the project:
+   ```bash
+   make clean PROJECT_NAME=my-project
+   ```
+
+
 ### Prerequisites
 
 - **Make**: Ensure that `make` is installed on your system.
 - **Git**: Required if you plan to initialize a git repository.
+
+## How to Contribute and Support
+
+If you have any questions or suggestions, please feel free to [create an issue](https://github.com/bugratufan/make-silicon/issues/new) or pull request. You can also support this project by sharing it with others who might find it useful.
+
+Please fork this repository and contribute back using [pull requests](https://github.com/bugratufan/make-silicon/pulls).
+
 
 ### Installation
 
 Clone the MakeSilicon repository:
 
 ```bash
-git clone https://github.com/yourusername/MakeSilicon.git
+git clone https://github.com/bugratufan/make-silicon.git
+```
+
+### License
+
+This project is licensed under GPL-2.0. See the [LICENSE](LICENSE) file for details.
