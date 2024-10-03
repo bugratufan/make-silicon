@@ -66,7 +66,15 @@ create:
 # List the projects in the project directory
 list:
 	@echo "Projects in '$(PROJ_DIR)':"
-	@ls -1 "$(PROJ_DIR)"
+	@if [ -d "$(PROJ_DIR)" ]; then \
+		if [ "$$(ls -A "$(PROJ_DIR)")" ]; then \
+			ls -1 "$(PROJ_DIR)"; \
+		else \
+			echo "No projects found in '$(PROJ_DIR)'"; \
+		fi; \
+	else \
+		echo "No projects found in '$(PROJ_DIR)'"; \
+	fi
 
 # Clean project target
 clean:
