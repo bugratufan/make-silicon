@@ -22,10 +22,10 @@ PROJECT ?= my_project
 # Parent directory where projects are created (from config or default 'ip_repos')
 PROJ_DIR ?= ip_repos
 
-.PHONY: create start clean help list clone_repos
+.PHONY: create start clean help list clone
 
 # Clone all repositories listed in the REPO_LIST into the project directory
-clone_repos:
+clone:
 	@mkdir -p $(PROJ_DIR)
 	@echo "Cloning repositories listed in $(REPO_LIST)..."
 	@while IFS= read -r repo || [[ -n "$$repo" ]]; do \
