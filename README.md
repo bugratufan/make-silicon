@@ -10,28 +10,40 @@ MakeSilicon is a streamlined toolkit for initializing FPGA and ASIC projects. It
 - **Optional Git Initialization**: Automatically initialize a git repository when creating a project.
 - **User Initialization Script**: Customize project setup with your own commands in `init.sh`.
 - **Safe Project Deletion**: Warns if there are uncommitted changes or unpushed commits before deleting a project.
+- **Project Listing**: List all projects in the project directory.
+- **Project Cleaning**: Delete a project and its contents.
+- **Project Cloning**: Clone user repo list with a single command.
 
 ## Getting Started
 
-2. List the available make commands:
+1. List the available make commands:
    ```bash
    make help
    ```
 
-1. Create a new project:
+2. Create a new project:
    ```bash
    make new PROJECT_NAME=my-project
+   # if you don't want to initialize a git repository, you can use the `GIT_INIT` flag:
+   make new PROJECT_NAME=my-project GIT_INIT=no
    ```
+
 
 3. List the projects in the project directory:
     ```bash
     make list
    ```
 
-2. Delete the project:
+4. Delete the project:
    ```bash
    make clean PROJECT_NAME=my-project
    ```
+
+5. Clone the user repo list:
+   ```bash
+   make clone
+   ```
+
 
 
 ### Prerequisites
