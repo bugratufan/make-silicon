@@ -48,7 +48,10 @@ create:
 		NEW_PROJECT="$(PROJECT)_$$i"; \
 	fi; \
 	echo "Creating project: '$$NEW_PROJECT'..."; \
-	mkdir -p "$(PROJ_DIR)/$$NEW_PROJECT"/$(DIRS); \
+	mkdir -p "$(PROJ_DIR)/$$NEW_PROJECT"; \
+	for dir in $(DIRS); do \
+		mkdir -p "$(PROJ_DIR)/$$NEW_PROJECT/$$dir"; \
+	done; \
 	echo "Copying and customizing README.md..."; \
 	sed "s/{{PROJECT_NAME}}/$$NEW_PROJECT/g" "$(TEMPLATE_DIR)/README.md" > "$(PROJ_DIR)/$$NEW_PROJECT/README.md"; \
 	echo "Copying init.sh from templates..."; \
