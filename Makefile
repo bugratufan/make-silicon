@@ -22,7 +22,27 @@ PROJECT ?= my_project
 # Parent directory where projects are created (from config or default 'ip_repos')
 PROJ_DIR ?= ip_repos
 
-.PHONY: create start clean help list
+.PHONY: create start clean help list clone_repos
+
+# Clone all repositories listed in the REPO_LIST into the project directory
+clone_repos:
+	@mkdir -p $(PROJ_DIR)
+	@echo "Cloning repositories listed in $(REPO_LIST)..."
+	@while IFS= read -r repo || [[ -n "$$repo" ]]; do \
+		repo_name=$$(basename -s .git $$repo); \
+		if [ -d "$(PROJ_DIR)/$$repo_name" ]; then \
+			if [ -d "$(PROJ_DIR)/$$repo_name/.git" ]; then \
+				echo "Repository $$repo_name already exists, skipping..."; \
+			else \
+				echo "Directory $$repo_name exists but is not a git repository, cloning..."; \
+				git clone $$repo "$(PROJ_DIR)/$$repo_name"; \
+			fi; \
+		else \
+			echo "Cloning $$repo into $(PROJ_DIR)/$$repo_name..."; \
+			git clone $$repo "$(PROJ_DIR)/$$repo_name"; \
+		fi; \
+	done < $(REPO_LIST)
+	@echo "All repositories have been cloned into $(PROJ_DIR)."
 
 # Help message
 help:
