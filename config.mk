@@ -10,3 +10,6 @@ PROJ_DIR := ip_repos
 # Initialize git repository by default (yes/no)
 # Uncomment and set to 'yes' to enable git initialization
 GIT_INIT := yes
+
+# File containing the list of repositories
+REPO_LIST := repos.txt
