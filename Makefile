@@ -4,7 +4,7 @@
 include config.mk
 
 # Default directories to create (space-separated)
-DEFAULT_DIRS := src sim synth docs scripts testbench constraints lib mem logs results
+DEFAULT_DIRS := src sim synth docs scripts tb constraints lib mem logs results
 
 # Determine directories to create from config or default
 ifeq ($(DIRECTORIES),)
