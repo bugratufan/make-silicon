@@ -1,71 +1,122 @@
 # MakeSilicon
 
-MakeSilicon is a streamlined toolkit for initializing FPGA and ASIC projects. It automates the creation of essential directories and integrates necessary scripts to set up your hardware development environment quickly and efficiently.
+MakeSilicon is a tiny, no-frills scaffolder for FPGA/ASIC IP repositories. It creates a ready-to-use project skeleton (folders, Makefile, `init.sh`, README) so you can start designing immediately.
 
-## Features
+## Highlights
 
-- **Automatic Project Setup**: Create new projects with a predefined directory structure.
-- **Customizable Configuration**: Define which directories to include via `config.mk` or command-line arguments.
-- **Template Integration**: Copy template scripts and files into new projects.
-- **Optional Git Initialization**: Automatically initialize a git repository when creating a project.
-- **User Initialization Script**: Customize project setup with your own commands in `init.sh`.
-- **Safe Project Deletion**: Warns if there are uncommitted changes or unpushed commits before deleting a project.
-- **Project Listing**: List all projects in the project directory.
-- **Project Cleaning**: Delete a project and its contents.
-- **Project Cloning**: Clone user repo list with a single command.
+- One command to scaffold a new design under a chosen parent folder
+- Sensible default directories for HDL work (src, sim, synth, tb, …)
+- Simple templates copied into each new repo (customizable)
+- Optional Git initialization
+- Safe clean (warns if there are uncommitted or unpushed changes)
+- Utility targets to list projects and clone a set of external repos
 
-## Getting Started
+## Requirements
 
-1. List the available make commands:
-   ```bash
-   make help
-   ```
+- GNU Make
+- Git (only if you want Git repos auto-initialized)
 
-2. Create a new project:
-   ```bash
-   make new PROJECT_NAME=my-project
-   # if you don't want to initialize a git repository, you can use the `GIT_INIT` flag:
-   make new PROJECT_NAME=my-project GIT_INIT=no
-   ```
+## Install
 
-
-3. List the projects in the project directory:
-    ```bash
-    make list
-   ```
-
-4. Delete the project:
-   ```bash
-   make clean PROJECT_NAME=my-project
-   ```
-
-5. Clone the user repo list:
-   ```bash
-   make clone
-   ```
-
-
-
-### Prerequisites
-
-- **Make**: Ensure that `make` is installed on your system.
-- **Git**: Required if you plan to initialize a git repository.
-
-## How to Contribute and Support
-
-If you have any questions or suggestions, please feel free to [create an issue](https://github.com/bugratufan/make-silicon/issues/new) or pull request. You can also support this project by sharing it with others who might find it useful.
-
-Please fork this repository and contribute back using [pull requests](https://github.com/bugratufan/make-silicon/pulls).
-
-
-### Installation
-
-Clone the MakeSilicon repository:
+Clone this repository:
 
 ```bash
 git clone https://github.com/bugratufan/make-silicon.git
+cd make-silicon
 ```
 
-### License
+## Quick start
 
-This project is licensed under GPL-2.0. See the [LICENSE](LICENSE) file for details.
+1) See available commands
+
+```bash
+make help
+```
+
+2) Create a new project (auto-suffixed if the name exists)
+
+```bash
+make create PROJECT=my_ip
+```
+
+This creates `ip_repos/my_ip/` with default subfolders:
+
+```
+src sim synth docs scripts tb constraints lib mem logs results
+```
+
+3) Skip Git initialization (optional)
+
+```bash
+make create PROJECT=my_ip GIT_INIT=no
+```
+
+4) List projects under the parent directory
+
+```bash
+make list
+```
+
+5) Remove a project (interactive safety check if it’s a Git repo)
+
+```bash
+make clean PROJECT=my_ip
+```
+
+## Configuration
+
+Defaults live in `config.mk`:
+
+- `PROJ_DIR` (default: `ip_repos`) – parent folder for generated projects
+- `GIT_INIT` (default: `yes`) – set to `no` to skip `git init`
+- `REPO_LIST` (default: `repos.txt`) – used by the `clone` target
+
+You can override variables per-invocation, e.g. place projects elsewhere:
+
+```bash
+make create PROJECT=my_ip PROJ_DIR=/path/to/designs
+```
+
+### Custom directories
+
+By default, these subfolders are created: `src sim synth docs scripts tb constraints lib mem logs results`.
+
+Provide your own list with `DIRECTORIES` (comma-separated):
+
+```bash
+make create PROJECT=my_ip DIRECTORIES=src,sim,tb,docs
+```
+
+## Templates
+
+On creation, the following files are copied into the project and customized:
+
+- `README.md` – project-level README with the folder layout
+- `init.sh` – your hook for any environment setup or generators
+- `Makefile` – includes a basic `init` target that runs `./init.sh`
+- `config.mk` – project-specific config stub
+
+Placeholders like `{{PROJECT_NAME}}` are replaced with your project’s name.
+
+## Cloning external IPs
+
+List Git repositories in `repos.txt` (one per line), then run:
+
+```bash
+make clone
+```
+
+They will be cloned into `PROJ_DIR` (skips ones already present as Git repos).
+
+## Notes
+
+- If `PROJECT` already exists, a numeric suffix (`_1`, `_2`, …) is appended automatically.
+- The `clean` target prompts before deletion if uncommitted or unpushed changes are detected.
+
+## License
+
+GPL-2.0. See [LICENSE](LICENSE).
+
+## Contributing
+
+Issues and PRs are welcome: https://github.com/bugratufan/make-silicon
